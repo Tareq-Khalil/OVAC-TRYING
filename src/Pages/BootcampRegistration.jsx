@@ -141,6 +141,10 @@ const RegistrationForm = () => {
     } catch (error) {
       console.error('Submission error:', error);
       setSubmitStatus('error');
+      // Show detailed error in console for debugging
+      console.log('Supabase URL:', process.env.REACT_APP_SUPABASE_URL);
+      console.log('Supabase Key exists:', !!process.env.REACT_APP_SUPABASE_ANON_KEY);
+      alert(`Debug info: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -427,6 +431,3 @@ const RegistrationForm = () => {
       </div>
     </div>
   );
-};
-
-export default RegistrationForm;
