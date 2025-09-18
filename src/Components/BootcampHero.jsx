@@ -5,7 +5,7 @@ const BootcampHero = () => {
   const navigate = useNavigate()
 
   const handleApplyClick = () => {
-    navigate('./bootcamp-registration')
+    navigate('/bootcamp-registration')
   }
 
   return (
