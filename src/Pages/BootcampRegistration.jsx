@@ -76,9 +76,30 @@ const RegistrationForm = () => {
     const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
     const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
     
+    console.log('Testing connection...');
+    console.log('URL exists:', !!supabaseUrl);
+    console.log('Key exists:', !!supabaseKey);
+    
     if (!supabaseUrl || !supabaseKey) {
       throw new Error('Supabase configuration missing');
     }
+
+    // First test the connection
+    const testResponse = await fetch(`${supabaseUrl}/rest/v1/bootcamp_registrations?select=count`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${supabaseKey}`,
+        'apikey': supabaseKey,
+      }
+    });
+
+    if (!testResponse.ok) {
+      const errorText = await testResponse.text();
+      console.error('Connection test failed:', errorText);
+      throw new Error(`Connection failed: ${testResponse.status} ${testResponse.statusText}`);
+    }
+
+    console.log('Connection test successful!');
 
     const response = await fetch(`${supabaseUrl}/rest/v1/bootcamp_registrations`, {
       method: 'POST',
@@ -92,7 +113,9 @@ const RegistrationForm = () => {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to submit registration');
+      const errorText = await response.text();
+      console.error('Insert failed:', errorText);
+      throw new Error(`Insert failed: ${response.status} ${response.statusText} - ${errorText}`);
     }
 
     return response;
@@ -431,6 +454,6 @@ const RegistrationForm = () => {
       </div>
     </div>
   );
-};
+  };
 
 export default RegistrationForm;
