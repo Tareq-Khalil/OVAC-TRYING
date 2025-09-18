@@ -1,0 +1,225 @@
+{
+  "images": {
+    "whoWeAre": [
+      {
+        "src": "./school.png",
+        "alt": "school image",
+        "name": "School"
+      },
+      {
+        "src": "./lesson.png",
+        "alt": "lesson 1",
+        "name": "Lesson 1"
+      },
+      {
+        "src": "./session.png",
+        "alt": "Digital art session",
+        "name": "Digital Art Session"
+      }
+    ],
+    "worker": [
+      {
+        "src": "/team/2024/abdelrahman.png",
+        "alt": "Abdelrahman",
+        "name": "Abdelrahman",
+        "year": 2024
+      },
+      {
+        "src": "/team/2024/ali.png",
+        "alt": "ali",
+        "name": "ali",
+        "year": 2024
+      },
+      {
+        "src": "/team/2024/ebram.png",
+        "alt": "ebram",
+        "name": "ebram",
+        "year": 2024
+      },
+      {
+        "src": "/team/2024/ibrahim.png",
+        "alt": "ibrahim",
+        "name": "ibrahim",
+        "year": 2024
+      },
+      {
+        "src": "/team/2024/kareem.png",
+        "alt": "kareem",
+        "name": "kareem",
+        "year": 2024
+      },
+      {
+        "src": "/team/2024/mazen.png",
+        "alt": "mazen",
+        "name": "mazen",
+        "year": 2024
+      },
+      {
+        "src": "/team/2024/omar_mohamed.png",
+        "alt": "omar",
+        "name": "omar",
+        "year": 2024
+      },
+      {
+        "src": "/team/2024/omar_sabry.png",
+        "alt": "omar",
+        "name": "omar_sabry",
+        "year": 2024
+      },
+      {
+        "src": "/team/2025/amro.jpg",
+        "alt": "amro",
+        "name": "amro",
+        "year": 2025
+      },
+      {
+        "src": "/team/2025/islam.jpg",
+        "alt": "youssef",
+        "name": "youssef",
+        "year": 2025
+      },
+      {
+        "src": "/team/2025/mody.jpg",
+        "alt": "mody",
+        "name": "Mody",
+        "year": 2025
+      },
+      {
+        "src": "/team/2025/kozman.jpg",
+        "alt": "kozman",
+        "name": "Kozman",
+        "year": 2025
+      },
+      {
+        "src": "/team/2025/tareq_ismail.jpg",
+        "alt": "tareq_ismail",
+        "name": "Tareq Ismail",
+        "year": 2025
+      },
+      {
+        "src": "/team/2025/tareq_khalil.jpg",
+        "alt": "tareq_khalil",
+        "name": "Tareq Khalil",
+        "year": 2025
+      },
+      {
+        "src": "/team/2025/ziad.jpg",
+        "alt": "ziad",
+        "name": "Ziad",
+        "year": 2025
+      }
+    ],
+    "gallery": [
+      {
+        "src": "/gallery/0.mp4",
+        "alt": "gallery video 0",
+        "name": "Gallery Video 0"
+      },
+      {
+        "src": "/gallery/1.jpg",
+        "alt": "gallery image 1",
+        "name": "Gallery Image 1"
+      },
+      {
+        "src": "/gallery/2.jpg",
+        "alt": "gallery image 2",
+        "name": "Gallery Image 2"
+      },
+      {
+        "src": "/gallery/3.jpg",
+        "alt": "gallery image 3",
+        "name": "Gallery Image 3"
+      },
+      {
+        "src": "/gallery/4.jpg",
+        "alt": "gallery image 4",
+        "name": "Gallery Image 4"
+      },
+      {
+        "src": "/gallery/5.jpg",
+        "alt": "gallery image 5",
+        "name": "Gallery Image 5"
+      },
+      {
+        "src": "/gallery/6.mp4",
+        "alt": "gallery video 6",
+        "name": "Gallery Video 6"
+      },
+      {
+        "src": "/gallery/7.jpg",
+        "alt": "gallery image 7",
+        "name": "Gallery image 7"
+      },
+      {
+        "src": "/gallery/8.jpg",
+        "alt": "gallery image 8",
+        "name": "Gallery Image 8"
+      },
+      {
+        "src": "/gallery/9.jpg",
+        "alt": "gallery image 9",
+        "name": "Gallery Image 9"
+      },
+      {
+        "src": "/gallery/10.jpg",
+        "alt": "gallery image 10",
+        "name": "Gallery Image 10"
+      },
+      {
+        "src": "/gallery/11.jpg",
+        "alt": "gallery image 11",
+        "name": "Gallery Image 11"
+      },
+      {
+        "src": "/gallery/12.jpg",
+        "alt": "gallery image 12",
+        "name": "Gallery Image 12"
+      },
+      {
+        "src": "/gallery/13.jpg",
+        "alt": "gallery image 13",
+        "name": "Gallery Image 13"
+      },
+      {
+        "src": "/gallery/14.jpg",
+        "alt": "gallery image 14",
+        "name": "Gallery Image 14"
+      },
+      {
+        "src": "/gallery/15.jpg",
+        "alt": "gallery image 15",
+        "name": "Gallery Image 15"
+      },
+      {
+        "src": "/gallery/16.jpg",
+        "alt": "gallery image 16",
+        "name": "Gallery Image 16"
+      },
+      {
+        "src": "/gallery/17.jpg",
+        "alt": "gallery image 17",
+        "name": "Gallery Image 17"
+      },
+      {
+        "src": "/gallery/18.jpg",
+        "alt": "gallery image 18",
+        "name": "Gallery Image 18"
+      },
+      {
+        "src": "/gallery/19.jpg",
+        "alt": "gallery image 19",
+        "name": "Gallery Image 19"
+      },
+      {
+        "src": "/gallery/20.jpg",
+        "alt": "gallery image 20",
+        "name": "Gallery Image 20"
+      },
+      {
+        "src": "/gallery/21.jpg",
+        "alt": "gallery image 21",
+        "name": "Gallery Image 21"
+      }
+    ]
+  }
+}
