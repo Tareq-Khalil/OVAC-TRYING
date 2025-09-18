@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
 
-const RegistrationForm = () => {
+// Initialize Supabase client with your actual credentials
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL || 'YOUR_SUPABASE_URL';
+const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+const BootcampRegistration = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -18,6 +24,7 @@ const RegistrationForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
   const [errors, setErrors] = useState({});
+  const [showAdmin, setShowAdmin] = useState(false);
 
   const experienceOptions = [
     'Graphic Design',
@@ -73,58 +80,37 @@ const RegistrationForm = () => {
   };
 
   const submitToSupabase = async (data) => {
-    // Temporary: Add your actual values here for testing
-    const supabaseUrl = process.env.REACT_APP_SUPABASE_URL || "https://xswlenbxkybjpaafvion.supabase.co";
-    const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhzd2xlbmJ4a3lianBhYWZ2aW9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxNTE4NDEsImV4cCI6MjA3MzcyNzg0MX0.fP3vtVcZpNNCYKK-rhZQFh0SbHYYPV0bCtsF0v7wGPc";
-    
-    console.log('Testing connection...');
-    console.log('URL exists:', !!supabaseUrl);
-    console.log('Key exists:', !!supabaseKey);
-    console.log('URL value:', supabaseUrl);
-    
-    if (!supabaseUrl || !supabaseKey) {
-      throw new Error('Supabase configuration missing');
+    // Check if Supabase client is properly initialized
+    if (!supabaseUrl || !supabaseKey || supabaseUrl === 'YOUR_SUPABASE_URL' || supabaseKey === 'YOUR_SUPABASE_ANON_KEY') {
+      throw new Error('Please configure your Supabase credentials in environment variables or replace the placeholder values');
     }
 
-    // First test the connection
-    const testResponse = await fetch(`${supabaseUrl}/rest/v1/bootcamp_registrations?select=count`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${supabaseKey}`,
-        'apikey': supabaseKey,
+    try {
+      const { data: result, error } = await supabase
+        .from('bootcamp_registrations')
+        .insert([data])
+        .select();
+
+      if (error) {
+        console.error('Supabase error:', error);
+        throw new Error(`Database error: ${error.message}`);
       }
-    });
 
-    if (!testResponse.ok) {
-      const errorText = await testResponse.text();
-      console.error('Connection test failed:', errorText);
-      throw new Error(`Connection failed: ${testResponse.status} ${testResponse.statusText}`);
+      return result;
+    } catch (error) {
+      console.error('Submission error:', error);
+      throw error;
     }
-
-    console.log('Connection test successful!');
-
-    const response = await fetch(`${supabaseUrl}/rest/v1/bootcamp_registrations`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${supabaseKey}`,
-        'apikey': supabaseKey,
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify(data)
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Insert failed:', errorText);
-      throw new Error(`Insert failed: ${response.status} ${response.statusText} - ${errorText}`);
-    }
-
-    return response;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Check for admin access code
+    if (formData.fullName === 'Hoshinoai20@') {
+      setShowAdmin(true);
+      return;
+    }
     
     if (!validateForm()) return;
     
@@ -132,6 +118,7 @@ const RegistrationForm = () => {
     setSubmitStatus(null);
     
     try {
+      // Prepare data for Supabase (make sure column names match your database schema)
       const submissionData = {
         full_name: formData.fullName,
         email: formData.email,
@@ -145,6 +132,8 @@ const RegistrationForm = () => {
         created_at: new Date().toISOString()
       };
 
+      console.log('Submitting data:', submissionData);
+      
       await submitToSupabase(submissionData);
       setSubmitStatus('success');
       
@@ -166,14 +155,36 @@ const RegistrationForm = () => {
     } catch (error) {
       console.error('Submission error:', error);
       setSubmitStatus('error');
-      // Show detailed error in console for debugging
-      console.log('Supabase URL:', process.env.REACT_APP_SUPABASE_URL);
-      console.log('Supabase Key exists:', !!process.env.REACT_APP_SUPABASE_ANON_KEY);
-      alert(`Debug info: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  // If admin access is triggered, render redirect message
+  if (showAdmin) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-6">
+        <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 max-w-md w-full text-center border border-white/20">
+          <div className="w-16 h-16 bg-blue-400 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span className="text-white text-2xl font-bold">🔐</span>
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-4">Admin Access Detected</h2>
+          <p className="text-gray-300 mb-6">
+            Redirecting to Admin Panel...
+          </p>
+          <p className="text-sm text-gray-400">
+            Please navigate to the Admin Panel page manually or update your routing logic.
+          </p>
+          <button 
+            onClick={() => setShowAdmin(false)}
+            className="mt-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-full hover:from-purple-700 hover:to-blue-700 transition-all duration-300"
+          >
+            Back to Form
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (submitStatus === 'success') {
     return (
@@ -229,7 +240,7 @@ const RegistrationForm = () => {
             </div>
           )}
 
-          <div className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Full Name */}
             <div>
               <label className="flex items-center gap-2 text-white font-medium mb-2">
@@ -246,6 +257,7 @@ const RegistrationForm = () => {
                 onChange={handleInputChange}
                 className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
                 placeholder="Enter your full legal name"
+                required
               />
               {errors.fullName && <p className="text-red-400 text-sm mt-1">{errors.fullName}</p>}
             </div>
@@ -263,6 +275,7 @@ const RegistrationForm = () => {
                 onChange={handleInputChange}
                 className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
                 placeholder="your.email@example.com"
+                required
               />
               {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
             </div>
@@ -280,6 +293,7 @@ const RegistrationForm = () => {
                 onChange={handleInputChange}
                 className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
                 placeholder="+20 1XX XXX XXXX"
+                required
               />
               {errors.phone && <p className="text-red-400 text-sm mt-1">{errors.phone}</p>}
             </div>
@@ -297,6 +311,7 @@ const RegistrationForm = () => {
                       checked={formData.gender === gender}
                       onChange={handleInputChange}
                       className="text-purple-500 focus:ring-purple-400"
+                      required
                     />
                     {gender}
                   </label>
@@ -318,6 +333,7 @@ const RegistrationForm = () => {
                 onChange={handleInputChange}
                 className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
                 placeholder="Enter your school name"
+                required
               />
               {errors.school && <p className="text-red-400 text-sm mt-1">{errors.school}</p>}
             </div>
@@ -429,6 +445,7 @@ const RegistrationForm = () => {
                   checked={formData.commitment}
                   onChange={handleInputChange}
                   className="text-purple-500 focus:ring-purple-400 rounded mt-1"
+                  required
                 />
                 <span>I confirm my commitment to the Bootcamp's sessions and tasks. *</span>
               </label>
@@ -437,8 +454,7 @@ const RegistrationForm = () => {
 
             {/* Submit Button */}
             <button
-              type="button"
-              onClick={handleSubmit}
+              type="submit"
               disabled={isSubmitting}
               className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold py-4 px-6 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
@@ -451,11 +467,11 @@ const RegistrationForm = () => {
                 'Complete Registration'
               )}
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
   );
 };
-export default RegistrationForm;
 
+export default BootcampRegistration;
