@@ -73,12 +73,14 @@ const RegistrationForm = () => {
   };
 
   const submitToSupabase = async (data) => {
-    const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
-    const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
+    // Temporary: Add your actual values here for testing
+    const supabaseUrl = process.env.REACT_APP_SUPABASE_URL || "https://xswlenbxkybjpaafvion.supabase.co";
+    const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhzd2xlbmJ4a3lianBhYWZ2aW9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxNTE4NDEsImV4cCI6MjA3MzcyNzg0MX0.fP3vtVcZpNNCYKK-rhZQFh0SbHYYPV0bCtsF0v7wGPc";
     
     console.log('Testing connection...');
     console.log('URL exists:', !!supabaseUrl);
     console.log('Key exists:', !!supabaseKey);
+    console.log('URL value:', supabaseUrl);
     
     if (!supabaseUrl || !supabaseKey) {
       throw new Error('Supabase configuration missing');
@@ -454,6 +456,3 @@ const RegistrationForm = () => {
       </div>
     </div>
   );
-  };
-
-export default RegistrationForm;
